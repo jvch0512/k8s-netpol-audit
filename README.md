@@ -2,6 +2,8 @@
 
 k8s-netpol-audit reads `kubectl get ... -o json` output (a List or single objects) and checks pod network isolation: namespaces that run workloads but have no NetworkPolicy, namespaces with policies but no default-deny for ingress or egress, ingress rules open to `0.0.0.0/0`, and rules that allow every source or destination.
 
+![Terminal demo of k8s-netpol-audit on its sample data](docs/demo.svg)
+
 **Live demo:** https://jvch0512.github.io/k8s-netpol-audit/ (Synthetic data.)
 
 Nim, standard library only. The demo page is rendered from the tool's `--tsv` output by `scripts/site.py` (Python 3, only needed to regenerate the page).
@@ -48,3 +50,13 @@ make test    # A Nim test program: every rule on good and bad dumps, default-den
 ```
 
 MIT.
+
+## Code scanning (SARIF)
+
+`scripts/tsv2sarif.py` converts the `--tsv` output into SARIF 2.1.0, so findings show up in GitHub code scanning:
+
+```sh
+bin/k8s-netpol-audit examples --tsv | python3 scripts/tsv2sarif.py --tool k8s-netpol-audit --prefix examples > results.sarif
+```
+
+Upload `results.sarif` with `github/codeql-action/upload-sarif`. Severities map to SARIF levels (critical and high to error, medium to warning, low and info to note) and to a `security-severity` score.
