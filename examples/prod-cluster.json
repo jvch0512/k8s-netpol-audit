@@ -1,0 +1,16 @@
+{
+  "apiVersion": "v1",
+  "kind": "List",
+  "items": [
+    { "kind": "Deployment", "metadata": { "name": "web", "namespace": "shop" } },
+    { "kind": "Deployment", "metadata": { "name": "api", "namespace": "shop" } },
+    { "kind": "StatefulSet", "metadata": { "name": "db", "namespace": "data" } },
+    { "kind": "Deployment", "metadata": { "name": "tools", "namespace": "legacy" } },
+    { "kind": "DaemonSet", "metadata": { "name": "kube-proxy", "namespace": "kube-system" } },
+    { "kind": "NetworkPolicy", "metadata": { "name": "default-deny-ingress", "namespace": "shop" }, "spec": { "podSelector": {}, "policyTypes": ["Ingress"] } },
+    { "kind": "NetworkPolicy", "metadata": { "name": "allow-any", "namespace": "shop" }, "spec": { "podSelector": { "matchLabels": { "app": "web" } }, "policyTypes": ["Ingress"], "ingress": [ { "from": [ { "ipBlock": { "cidr": "0.0.0.0/0" } } ] } ] } },
+    { "kind": "NetworkPolicy", "metadata": { "name": "open-api", "namespace": "shop" }, "spec": { "podSelector": { "matchLabels": { "app": "api" } }, "policyTypes": ["Ingress"], "ingress": [ {} ] } },
+    { "kind": "NetworkPolicy", "metadata": { "name": "default-deny-all", "namespace": "data" }, "spec": { "podSelector": {}, "policyTypes": ["Ingress", "Egress"] } },
+    { "kind": "NetworkPolicy", "metadata": { "name": "egress-any", "namespace": "data" }, "spec": { "podSelector": { "matchLabels": { "app": "db" } }, "policyTypes": ["Egress"], "egress": [ {} ] } }
+  ]
+}

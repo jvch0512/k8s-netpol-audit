@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Launcher: runs the built Nim binary. Build first with `make build`.
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+exec "$DIR/build/k8s-netpol-audit" "$@"

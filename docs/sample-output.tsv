@@ -1,0 +1,7 @@
+# 3 files, 6 findings
+high	KNP001	prod-cluster.json#legacy	namespace legacy runs workloads and has no NetworkPolicy
+high	KNP004	prod-cluster.json#shop/allow-any	allow-any allows ingress from 0.0.0.0/0
+medium	KNP005	prod-cluster.json#shop/open-api	open-api has an ingress rule with no `from`, every source is allowed
+low	KNP003	prod-cluster.json#shop	namespace shop has no default-deny egress policy
+low	KNP006	prod-cluster.json#data/egress-any	egress-any has an egress rule with no `to`, every destination is allowed
+info	KNP000	other.json	no Kubernetes objects found, ignored

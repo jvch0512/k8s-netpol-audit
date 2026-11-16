@@ -1,0 +1,8 @@
+{
+  "kind": "List",
+  "items": [
+    { "kind": "Deployment", "metadata": { "name": "app", "namespace": "secure" } },
+    { "kind": "NetworkPolicy", "metadata": { "name": "deny-all", "namespace": "secure" }, "spec": { "podSelector": {}, "policyTypes": ["Ingress", "Egress"] } },
+    { "kind": "NetworkPolicy", "metadata": { "name": "allow-ingress", "namespace": "secure" }, "spec": { "podSelector": { "matchLabels": { "app": "app" } }, "policyTypes": ["Ingress"], "ingress": [ { "from": [ { "namespaceSelector": { "matchLabels": { "name": "gateway" } } } ] } ] } }
+  ]
+}
